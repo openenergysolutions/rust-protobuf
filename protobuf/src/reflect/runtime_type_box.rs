@@ -38,7 +38,8 @@ pub enum RuntimeType {
 }
 
 impl RuntimeType {
-    pub(crate) fn default_value_ref(&self) -> ReflectValueRef<'static> {
+    /// Default value
+    pub fn default_value_ref(&self) -> ReflectValueRef<'static> {
         match self {
             RuntimeType::I32 => ReflectValueRef::I32(0),
             RuntimeType::I64 => ReflectValueRef::I64(0),
@@ -54,7 +55,8 @@ impl RuntimeType {
         }
     }
 
-    pub(crate) fn default_value_box(&self) -> ReflectValueBox {
+    /// Default value
+    pub fn default_value_box(&self) -> ReflectValueBox {
         self.default_value_ref().to_box()
     }
 
@@ -63,7 +65,7 @@ impl RuntimeType {
     /// # Panics
     ///
     /// Panics for message or enum types (because they can't be resolved without context).
-    pub(crate) fn from_proto_type(t: field_descriptor_proto::Type) -> RuntimeType {
+    pub fn from_proto_type(t: field_descriptor_proto::Type) -> RuntimeType {
         match t {
             field_descriptor_proto::Type::TYPE_UINT32 => RuntimeType::U32,
             field_descriptor_proto::Type::TYPE_UINT64 => RuntimeType::U64,
@@ -89,7 +91,8 @@ impl RuntimeType {
         }
     }
 
-    pub(crate) fn parse_proto_default_value(&self, value: &str) -> Result<ReflectValueBox, ()> {
+    /// Parse protobuf default value
+    pub fn parse_proto_default_value(&self, value: &str) -> Result<ReflectValueBox, ()> {
         match self {
             // For booleans, "true" or "false"
             RuntimeType::Bool => {
